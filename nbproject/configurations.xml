@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="94">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>IProgressListener2.h</itemPath>
+      <itemPath>MicroAggregation.h</itemPath>
+      <itemPath>Numerical.h</itemPath>
+      <itemPath>Numerical_wrap.h</itemPath>
+      <itemPath>RankSwap.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+      <itemPath>Numerical.swg</itemPath>
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>MicroAggregation.cpp</itemPath>
+      <itemPath>Numerical.cpp</itemPath>
+      <itemPath>Numerical_wrap.cpp</itemPath>
+      <itemPath>RankSwap.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="2">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>../../../../Program Files/Java/jdk1.8.0_11/include</pElem>
+            <pElem>../../../../Program Files/Java/jdk1.8.0_11/include/win32</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <commandLine>-Wl,--kill-at</commandLine>
+        </linkerTool>
+      </compileType>
+      <item path="IProgressListener2.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MicroAggregation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MicroAggregation.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Numerical.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Numerical.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Numerical.swg" ex="false" tool="3" flavor2="0">
+        <customTool>
+          <customToolCommandline>C:\Users\Gebruiker\Downloads\swigwin-3.0.2\swigwin-3.0.2\swig.exe -c++ -java -package muargus.extern.dataengine -outdir ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM} -o Numerical_wrap.cpp Numerical.swg</customToolCommandline>
+          <customToolOutputs>Numerical_wrap.cpp Numerical_wrap.h</customToolOutputs>
+        </customTool>
+      </item>
+      <item path="Numerical_wrap.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Numerical_wrap.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="RankSwap.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="RankSwap.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="2">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+      </compileType>
+      <item path="IProgressListener2.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MicroAggregation.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="MicroAggregation.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Numerical.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Numerical.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Numerical.swg" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Numerical_wrap.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Numerical_wrap.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="RankSwap.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="RankSwap.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
