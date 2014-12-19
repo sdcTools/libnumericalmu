@@ -35,7 +35,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
-#include "rankswap.h"
+#include "RankSwap.h"
 
 
 
