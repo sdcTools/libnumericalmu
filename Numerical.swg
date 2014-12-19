@@ -21,7 +21,7 @@
 %apply char **STRING_ARRAY { char* [] };
 %apply double[] { double *ClassLeftValue };
 
-// Include this block in the generated C++ wrapper code (MuArgus_wrap.cpp)
+// Include this block in the generated C++ wrapper code (Numerical_wrap.cpp)
 %{
 #include "IProgressListener2.h"
 #include "Numerical.h"
