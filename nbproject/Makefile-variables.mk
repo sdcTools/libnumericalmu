@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=MinGW-Windows
 CND_ARTIFACT_DIR_Debug=dist/Debug/MinGW-Windows
-CND_ARTIFACT_NAME_Debug=libnumericaldll.dll
-CND_ARTIFACT_PATH_Debug=dist/Debug/MinGW-Windows/libnumericaldll.dll
+CND_ARTIFACT_NAME_Debug=liblibnumericalmu.dll
+CND_ARTIFACT_PATH_Debug=dist/Debug/MinGW-Windows/liblibnumericalmu.dll
 CND_PACKAGE_DIR_Debug=dist/Debug/MinGW-Windows/package
-CND_PACKAGE_NAME_Debug=libnumericaldll.dll.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/MinGW-Windows/package/libnumericaldll.dll.tar
+CND_PACKAGE_NAME_Debug=liblibnumericalmu.dll.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/MinGW-Windows/package/liblibnumericalmu.dll.tar
 # Release configuration
 CND_PLATFORM_Release=MinGW-Windows
 CND_ARTIFACT_DIR_Release=dist/Release/MinGW-Windows
-CND_ARTIFACT_NAME_Release=libnumericaldll.dll
-CND_ARTIFACT_PATH_Release=dist/Release/MinGW-Windows/libnumericaldll.dll
+CND_ARTIFACT_NAME_Release=liblibnumericalmu.dll
+CND_ARTIFACT_PATH_Release=dist/Release/MinGW-Windows/liblibnumericalmu.dll
 CND_PACKAGE_DIR_Release=dist/Release/MinGW-Windows/package
-CND_PACKAGE_NAME_Release=libnumericaldll.dll.tar
-CND_PACKAGE_PATH_Release=dist/Release/MinGW-Windows/package/libnumericaldll.dll.tar
+CND_PACKAGE_NAME_Release=liblibnumericalmu.dll.tar
+CND_PACKAGE_PATH_Release=dist/Release/MinGW-Windows/package/liblibnumericalmu.dll.tar
 #
 # include compiler specific variables
 #
