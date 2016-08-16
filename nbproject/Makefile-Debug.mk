@@ -59,36 +59,36 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libnumericaldll.${CND_DLIB_EXT}
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/liblibnumericalmu.${CND_DLIB_EXT}
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libnumericaldll.${CND_DLIB_EXT}: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/liblibnumericalmu.${CND_DLIB_EXT}: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libnumericaldll.${CND_DLIB_EXT} ${OBJECTFILES} ${LDLIBSOPTIONS} -Wl,--kill-at -shared
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/liblibnumericalmu.${CND_DLIB_EXT} ${OBJECTFILES} ${LDLIBSOPTIONS} -Wl,--kill-at -shared
 
 ${OBJECTDIR}/MicroAggregation.o: MicroAggregation.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../../../../Program\ Files/Java/jdk1.8.0_11/include -I../../../../Program\ Files/Java/jdk1.8.0_11/include/win32  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MicroAggregation.o MicroAggregation.cpp
+	$(COMPILE.cc) -g -I/C/Program\ Files/Java/jdk1.8.0_65/include -I/C/Program\ Files/Java/jdk1.8.0_65/include/win32  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MicroAggregation.o MicroAggregation.cpp
 
 ${OBJECTDIR}/Numerical.o: Numerical.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../../../../Program\ Files/Java/jdk1.8.0_11/include -I../../../../Program\ Files/Java/jdk1.8.0_11/include/win32  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Numerical.o Numerical.cpp
+	$(COMPILE.cc) -g -I/C/Program\ Files/Java/jdk1.8.0_65/include -I/C/Program\ Files/Java/jdk1.8.0_65/include/win32  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Numerical.o Numerical.cpp
 
 .NO_PARALLEL:Numerical_wrap.cpp Numerical_wrap.h
 Numerical_wrap.cpp Numerical_wrap.h: Numerical.swg 
 	@echo Performing Custom Build Step
-	C:\Users\Gebruiker\Downloads\swigwin-3.0.2\swigwin-3.0.2\swig.exe -c++ -java -package muargus.extern.dataengine -outdir ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM} -o Numerical_wrap.cpp Numerical.swg
+	D:\Users\pwof\Documents\swig\swigwin-3.0.7\swig.exe -c++ -java -package muargus.extern.dataengine -outdir ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM} -o Numerical_wrap.cpp Numerical.swg
 
 ${OBJECTDIR}/Numerical_wrap.o: Numerical_wrap.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../../../../Program\ Files/Java/jdk1.8.0_11/include -I../../../../Program\ Files/Java/jdk1.8.0_11/include/win32  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Numerical_wrap.o Numerical_wrap.cpp
+	$(COMPILE.cc) -g -I/C/Program\ Files/Java/jdk1.8.0_65/include -I/C/Program\ Files/Java/jdk1.8.0_65/include/win32  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Numerical_wrap.o Numerical_wrap.cpp
 
 ${OBJECTDIR}/RankSwap.o: RankSwap.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../../../../Program\ Files/Java/jdk1.8.0_11/include -I../../../../Program\ Files/Java/jdk1.8.0_11/include/win32  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/RankSwap.o RankSwap.cpp
+	$(COMPILE.cc) -g -I/C/Program\ Files/Java/jdk1.8.0_65/include -I/C/Program\ Files/Java/jdk1.8.0_65/include/win32  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/RankSwap.o RankSwap.cpp
 
 # Subprojects
 .build-subprojects:
@@ -96,7 +96,7 @@ ${OBJECTDIR}/RankSwap.o: RankSwap.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libnumericaldll.${CND_DLIB_EXT}
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/liblibnumericalmu.${CND_DLIB_EXT}
 	${RM} Numerical_wrap.cpp Numerical_wrap.h
 
 # Subprojects
