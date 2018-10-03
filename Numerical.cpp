@@ -21,9 +21,35 @@
 //#include "Catalaan.h"
 #include "Numerical.h"
 #include "MicroAggregation.h"
+#include "recordSwap.h"
 #include <float.h>
 #include <locale.h>
 #include <string>
+
+/////////////////////////////////////////////////////////////////////////////
+// Targeted recordswapping
+
+void Numerical::DoTargetedRecordSwap(/*[in]*/ std::string inFileName, /*[in]*/ std::string outFileName, 
+                          /*[in]*/ std::string separator, /*[in]*/ int numVar, /*[in]*/ double swaprate,
+                          /*[in]*/ int* similar, /*[in]*/ int* hierarchy, /*[in]*/ int* risk,
+                          /*[in]*/ int hhID, /*[in]*/ int th, /*[in]*/ int seed){
+    
+    long numberOfLines;
+    long *errorCode;
+    double** inputdata = ReadFromFile(inFileName, separator, numVar, &numberOfLines, errorCode);
+    if (inputdata == NULL)
+        return;
+    
+    std::vector< std::vector<int> > data;
+    std::vector< std::vector<int> > newdata;
+    std::vector<int> similarRS;
+    std::vector<int> hierarchyRS;
+    std::vector<int> riskRS;
+    
+    
+    newdata = recordSwap(data, similarRS, hierarchyRS, riskRS, hhID, th, swaprate, seed);
+    
+}
 
 /////////////////////////////////////////////////////////////////////////////
 // CCatalaanCtrl

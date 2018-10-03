@@ -48,6 +48,10 @@ public:
 
 // ICatalaanCtrl
 public:
+        void DoTargetedRecordSwap(/*[in]*/ std::string inFileName, /*[in]*/ std::string outFileName, 
+                                  /*[in]*/ std::string separator, /*[in]*/ int numVar, /*[in]*/ double swaprate,
+                                  /*[in]*/ int* similar, /*[in]*/ int* hierarchy, /*[in]*/ int* risk,
+                                  /*[in]*/ int hhID, /*[in]*/ int th, /*[in]*/ int seed);
 	void DoRankSwap(/*[in]*/ std::string inFileName, /*[in]*/ std::string outFileName, /*[in]*/  std::string separator, /*[in]*/ long numVar, /*[in]*/ long perc, /*[in,out]*/ long *errorCode);
 	void DoMicroAggregation(/*[in]*/ std::string inFileName, /*[in]*/ std::string outFileName,  /*[in]*/ std::string separator, /*[in]*/ long nVar, /*[in]*/ long nMinRecPerGr, /*[in]*/ long nGroupsPerVar, /*[in]*/ long typeSolution, /*[in,out]*/  long  *nColumnsPerGr, /*[in,out]*/  long  *errorCode);
         void SetProgressListener(IProgressListener2* progressListener);
