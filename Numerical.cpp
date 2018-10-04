@@ -27,7 +27,7 @@
 #include <string>
 
 /////////////////////////////////////////////////////////////////////////////
-// Targeted recordswapping
+// Targeted record swapping
 
 void Numerical::DoTargetedRecordSwap(/*[in]*/ std::string inFileName, /*[in]*/ std::string outFileName, 
                           /*[in]*/ std::string separator, /*[in]*/ int numVar, /*[in]*/ double swaprate,
