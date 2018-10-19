@@ -21,6 +21,7 @@
 #define __CATALAANCTRL_H_
 
 #include <string>
+#include <vector>
 #include "RankSwap.h"
 #include "IProgressListener2.h"
 #define MAXRECORDLENGTH  10000      // main symbols
@@ -50,8 +51,9 @@ public:
 public:
         void DoTargetedRecordSwap(/*[in]*/ std::string inFileName, /*[in]*/ std::string outFileName, 
                                   /*[in]*/ std::string separator, /*[in]*/ int numVar, /*[in]*/ double swaprate,
-                                  /*[in]*/ int* similar, /*[in]*/ int* hierarchy, /*[in]*/ int* risk,
-                                  /*[in]*/ int hhID, /*[in]*/ int th, /*[in]*/ int seed);
+                                  /*[in]*/ int* similar, /*[in]*/ int nSim, /*[in]*/ int* hierarchy, /*[in]*/ int nHier, 
+                                  /*[in]*/ int* risk, /*[in]*/ int nRisk, 
+                                  /*[in]*/ int hhID, /*[in]*/ int th, /*[in]*/ int seed, /*[in,out]*/ long* errorCode);
 	void DoRankSwap(/*[in]*/ std::string inFileName, /*[in]*/ std::string outFileName, /*[in]*/  std::string separator, /*[in]*/ long numVar, /*[in]*/ long perc, /*[in,out]*/ long *errorCode);
 	void DoMicroAggregation(/*[in]*/ std::string inFileName, /*[in]*/ std::string outFileName,  /*[in]*/ std::string separator, /*[in]*/ long nVar, /*[in]*/ long nMinRecPerGr, /*[in]*/ long nGroupsPerVar, /*[in]*/ long typeSolution, /*[in,out]*/  long  *nColumnsPerGr, /*[in,out]*/  long  *errorCode);
         void SetProgressListener(IProgressListener2* progressListener);
@@ -71,7 +73,9 @@ typedef struct
 
 	bool ConvertNumeric(const char* code, double &d);
         double** ReadFromFile(std::string inFileName,std::string separator,long nVar, long* numberOfLines, long* errorCode);
+        std::vector< std::vector<int> > ReadFromFileForTRS(std::string inFileName, std::string separator, long nVar, long* numberOfLines, long* errorCode);
 	void WriteOutput(std::string outFileName, std::string separator, long nVar, long nRec, double **out_Data);
+        void WriteOutputTRS(std::string outFileName, std::string seperator, long nVar, long nRec, std::vector< std::vector<int> > out_Data);
 	/*
         long Microaggregation(long  n_var, long n_elements,
 					 long elms_p_group, long group_var, 

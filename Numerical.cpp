@@ -31,24 +31,39 @@
 
 void Numerical::DoTargetedRecordSwap(/*[in]*/ std::string inFileName, /*[in]*/ std::string outFileName, 
                           /*[in]*/ std::string separator, /*[in]*/ int numVar, /*[in]*/ double swaprate,
-                          /*[in]*/ int* similar, /*[in]*/ int* hierarchy, /*[in]*/ int* risk,
-                          /*[in]*/ int hhID, /*[in]*/ int th, /*[in]*/ int seed){
+                          /*[in]*/ int* similar, /*in*/ int nSim, /*[in]*/ int* hierarchy, /*in*/ int nHier, 
+                          /*[in]*/ int* risk, /*in*/ int nRisk, 
+                          /*[in]*/ int hhID, /*[in]*/ int th, /*[in]*/ int seed, /*[in,out]*/ long* errorCode){
     
     long numberOfLines;
-    long *errorCode;
-    double** inputdata = ReadFromFile(inFileName, separator, numVar, &numberOfLines, errorCode);
-    if (inputdata == NULL)
+    std::vector< std::vector<int> > inputdata = ReadFromFileForTRS(inFileName, separator, numVar, &numberOfLines, errorCode);
+    if (errorCode[0] != 0)
         return;
+
+    //std::vector< std::vector<int> > data;
+    //std::vector< std::vector<int> > newdata;
+    std::vector<int> similarRS(nSim);
+    std::vector<int> hierarchyRS(nHier);
+    std::vector<int> riskRS(nRisk);
     
-    std::vector< std::vector<int> > data;
-    std::vector< std::vector<int> > newdata;
-    std::vector<int> similarRS;
-    std::vector<int> hierarchyRS;
-    std::vector<int> riskRS;
+    for (int i=0; i<nSim; i++) similarRS[i] = similar[i];
+
+    for (int i=0; i<nHier; i++) hierarchyRS[i] = hierarchy[i];
+
+    for (int i=0; i<nRisk; i++) riskRS[i] = risk[i];
+
+/*    data.resize(numVar);
+    for (int i=0; i<numVar; i++)
+    {
+        data[i].resize(numberOfLines);
+        for (int j=0; j<numberOfLines; j++){
+            data[i][j] = (int) inputdata[j][i];   // Need to transpose the data for the time being
+        }
+    }
+*/  
+    inputdata = recordSwap(inputdata, similarRS, hierarchyRS, riskRS, hhID, th, swaprate, seed);
     
-    
-    newdata = recordSwap(data, similarRS, hierarchyRS, riskRS, hhID, th, swaprate, seed);
-    
+    WriteOutputTRS(outFileName, separator, numVar, numberOfLines, inputdata);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -238,6 +253,89 @@ double** Numerical::ReadFromFile(std::string inFileName,
     
 }
 
+std::vector< std::vector<int> > Numerical::ReadFromFileForTRS(std::string inFileName,
+               std::string separator, long nVar, long* numberOfLines, long* errorCode) {
+    
+	FILE *fdin;
+	char str[MAXRECORDLENGTH];
+	std::string stempstr;
+        std::string stemp;
+	int iseppos;
+	std::vector< std::vector<int> > inputdata;
+	int d;
+	        
+        setlocale(LC_NUMERIC, "C");
+        
+	fdin = fopen (inFileName.c_str(), "r");
+	if (fdin == 0) {
+		*errorCode = -1;
+		return inputdata;
+	}
+	        
+	str[0] = 0;
+	fgets((char *)str, MAXRECORDLENGTH, fdin);
+	if (str[0] == 0) {
+            *errorCode = -1;
+            return inputdata;
+	}
+	
+	rewind(fdin);
+	long icount = 0;  // length of file
+	while (!feof(fdin)) {
+		fgets((char *) str, MAXRECORDLENGTH, fdin);
+		icount ++;
+	}
+
+	*numberOfLines = icount;
+        
+        // For time being:
+        // inputdata is transposed datafile !!!!
+        inputdata.resize(nVar);
+
+	for (long i=0; i<nVar; i++)  {
+            inputdata[i].resize(*numberOfLines);
+        }
+    
+	rewind(fdin);
+	long recnr = 0;
+	while (!feof(fdin)) {
+		fgets((char *)str, MAXRECORDLENGTH, fdin);
+                
+		stempstr = std::string(str);
+		iseppos = stempstr.find(separator,0);
+		int pos = 0;
+		icount = 0;
+		while (iseppos != -1)  {
+			stemp=stempstr.substr(pos,iseppos);
+
+			//inputdata[recnr][icount] = atoi(stemp.c_str();
+                        inputdata[icount][recnr] = atoi(stemp.c_str());    // Transpose matrix for time being, see line 327 as well
+
+			icount ++;
+                        pos = iseppos+1;
+			iseppos = stempstr.find(separator,pos);
+		}
+                stemp = stempstr.substr(pos);
+
+		if ((stempstr.length() == 0) || (icount < nVar-1) || (icount > nVar))
+		{
+			//return false;
+		}
+		else
+		{
+    		    //inputdata[recnr][icount] = atoi(stemp.c_str();
+                    inputdata[icount][recnr] = atoi(stemp.c_str());   // Transpose matrix for time being
+		}
+		recnr++;
+	}
+
+	
+	fclose(fdin);
+        *errorCode = 0;
+        
+        return inputdata;
+}
+
 
 bool Numerical::ConvertNumeric(const char* code, double &d)
 { char *stop;
@@ -275,6 +373,29 @@ void Numerical::WriteOutput(std::string outFileName, std::string seperator,
 		}
 	}
 
+	fclose (fdout);
+}
+
+void Numerical::WriteOutputTRS(std::string outFileName, std::string seperator, 
+								long nVar, long nRec,
+								std::vector< std::vector<int> > out_Data)
+{
+	FILE *fdout;
+	long i,j;
+	fdout = fopen(outFileName.c_str(),"w");
+	
+	for (i=0; i<nRec; i++) {
+		for (j=0; j <nVar; j++) {
+			fprintf(fdout,"%d", out_Data[j][i]);    // Transpose back
+			if (j <nVar-1) {
+				fprintf(fdout,"%s",seperator.c_str());
+			}
+	
+		}
+		if (i<nRec-1) {
+			fprintf(fdout,"\n");
+		}
+	}
 	fclose (fdout);
 }
 
