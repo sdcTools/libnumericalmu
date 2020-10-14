@@ -1499,7 +1499,7 @@ SWIGEXPORT jlong JNICALL Java_muargus_extern_dataengine_NumericalDllJNI_new_1Num
 }
 
 
-SWIGEXPORT void JNICALL Java_muargus_extern_dataengine_NumericalDllJNI_Numerical_1DoTargetedRecordSwap(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2, jstring jarg3, jstring jarg4, jint jarg5, jdouble jarg6, jintArray jarg7, jint jarg8, jintArray jarg9, jint jarg10, jintArray jarg11, jint jarg12, jint jarg13, jint jarg14, jint jarg15, jintArray jarg16) {
+SWIGEXPORT void JNICALL Java_muargus_extern_dataengine_NumericalDllJNI_Numerical_1DoTargetedRecordSwap(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2, jstring jarg3, jstring jarg4, jint jarg5, jdouble jarg6, jintArray jarg7, jint jarg8, jintArray jarg9, jint jarg10, jintArray jarg11, jint jarg12, jintArray jarg13, jint jarg14, jint jarg15, jint jarg16, jint jarg17, jintArray jarg18) {
   Numerical *arg1 = (Numerical *) 0 ;
   std::string arg2 ;
   std::string arg3 ;
@@ -1512,14 +1512,17 @@ SWIGEXPORT void JNICALL Java_muargus_extern_dataengine_NumericalDllJNI_Numerical
   int arg10 ;
   int *arg11 = (int *) 0 ;
   int arg12 ;
-  int arg13 ;
+  int *arg13 = (int *) 0 ;
   int arg14 ;
   int arg15 ;
-  long *arg16 = (long *) 0 ;
+  int arg16 ;
+  int arg17 ;
+  long *arg18 = (long *) 0 ;
   jint *jarr7 ;
   jint *jarr9 ;
   jint *jarr11 ;
-  long temp16 ;
+  jint *jarr13 ;
+  long temp18 ;
   
   (void)jenv;
   (void)jcls;
@@ -1557,32 +1560,36 @@ SWIGEXPORT void JNICALL Java_muargus_extern_dataengine_NumericalDllJNI_Numerical
   arg10 = (int)jarg10; 
   if (!SWIG_JavaArrayInInt(jenv, &jarr11, (int **)&arg11, jarg11)) return ; 
   arg12 = (int)jarg12; 
-  arg13 = (int)jarg13; 
+  if (!SWIG_JavaArrayInInt(jenv, &jarr13, (int **)&arg13, jarg13)) return ; 
   arg14 = (int)jarg14; 
   arg15 = (int)jarg15; 
+  arg16 = (int)jarg16; 
+  arg17 = (int)jarg17; 
   {
-    if (!jarg16) {
+    if (!jarg18) {
       SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "array null");
       return ;
     }
-    if (jenv->GetArrayLength(jarg16) == 0) {
+    if (jenv->GetArrayLength(jarg18) == 0) {
       SWIG_JavaThrowException(jenv, SWIG_JavaIndexOutOfBoundsException, "Array must contain at least 1 element");
       return ;
     }
-    temp16 = (long)0;
-    arg16 = &temp16; 
+    temp18 = (long)0;
+    arg18 = &temp18; 
   }
-  (arg1)->DoTargetedRecordSwap(arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16);
+  (arg1)->DoTargetedRecordSwap(arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,arg15,arg16,arg17,arg18);
   SWIG_JavaArrayArgoutInt(jenv, jarr7, (int *)arg7, jarg7); 
   SWIG_JavaArrayArgoutInt(jenv, jarr9, (int *)arg9, jarg9); 
   SWIG_JavaArrayArgoutInt(jenv, jarr11, (int *)arg11, jarg11); 
+  SWIG_JavaArrayArgoutInt(jenv, jarr13, (int *)arg13, jarg13); 
   {
-    jint jvalue = (jint)temp16;
-    jenv->SetIntArrayRegion(jarg16, 0, 1, &jvalue);
+    jint jvalue = (jint)temp18;
+    jenv->SetIntArrayRegion(jarg18, 0, 1, &jvalue);
   }
   delete [] arg7; 
   delete [] arg9; 
   delete [] arg11; 
+  delete [] arg13; 
   
 }
 

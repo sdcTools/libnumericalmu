@@ -52,7 +52,7 @@ public:
         void DoTargetedRecordSwap(/*[in]*/ std::string inFileName, /*[in]*/ std::string outFileName, 
                                   /*[in]*/ std::string separator, /*[in]*/ int numVar, /*[in]*/ double swaprate,
                                   /*[in]*/ int* similar, /*[in]*/ int nSim, /*[in]*/ int* hierarchy, /*[in]*/ int nHier, 
-                                  /*[in]*/ int* risk, /*[in]*/ int nRisk, 
+                                  /*[in]*/ int* risk, /*[in]*/ int nRisk, /*[in]*/ int* carry, /*[in]*/ int nCarry, 
                                   /*[in]*/ int hhID, /*[in]*/ int th, /*[in]*/ int seed, /*[in,out]*/ long* errorCode);
 	void DoRankSwap(/*[in]*/ std::string inFileName, /*[in]*/ std::string outFileName, /*[in]*/  std::string separator, /*[in]*/ long numVar, /*[in]*/ long perc, /*[in,out]*/ long *errorCode);
 	void DoMicroAggregation(/*[in]*/ std::string inFileName, /*[in]*/ std::string outFileName,  /*[in]*/ std::string separator, /*[in]*/ long nVar, /*[in]*/ long nMinRecPerGr, /*[in]*/ long nGroupsPerVar, /*[in]*/ long typeSolution, /*[in,out]*/  long  *nColumnsPerGr, /*[in,out]*/  long  *errorCode);

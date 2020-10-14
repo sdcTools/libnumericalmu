@@ -31,8 +31,8 @@
 
 void Numerical::DoTargetedRecordSwap(/*[in]*/ std::string inFileName, /*[in]*/ std::string outFileName, 
                           /*[in]*/ std::string separator, /*[in]*/ int numVar, /*[in]*/ double swaprate,
-                          /*[in]*/ int* similar, /*in*/ int nSim, /*[in]*/ int* hierarchy, /*in*/ int nHier, 
-                          /*[in]*/ int* risk, /*in*/ int nRisk, 
+                          /*[in]*/ int* similar, /*[in]*/ int nSim, /*[in]*/ int* hierarchy, /*[in]*/ int nHier, 
+                          /*[in]*/ int* risk, /*[in]*/ int nRisk, /*[in]*/ int* carry, /*[in]*/ int nCarry,
                           /*[in]*/ int hhID, /*[in]*/ int th, /*[in]*/ int seed, /*[in,out]*/ long* errorCode){
     
     long numberOfLines;
@@ -45,12 +45,15 @@ void Numerical::DoTargetedRecordSwap(/*[in]*/ std::string inFileName, /*[in]*/ s
     std::vector<int> similarRS(nSim);
     std::vector<int> hierarchyRS(nHier);
     std::vector<int> riskRS(nRisk);
+    std::vector<int> carryRS(nCarry);
     
     for (int i=0; i<nSim; i++) similarRS[i] = similar[i];
 
     for (int i=0; i<nHier; i++) hierarchyRS[i] = hierarchy[i];
 
     for (int i=0; i<nRisk; i++) riskRS[i] = risk[i];
+    
+    for (int i=0; i<nCarry; i++) carryRS[i] = carry[i];
 
 /*    data.resize(numVar);
     for (int i=0; i<numVar; i++)
@@ -61,7 +64,7 @@ void Numerical::DoTargetedRecordSwap(/*[in]*/ std::string inFileName, /*[in]*/ s
         }
     }
 */  
-    inputdata = recordSwap(inputdata, similarRS, hierarchyRS, riskRS, hhID, th, swaprate, seed);
+    inputdata = recordSwap(inputdata, similarRS, hierarchyRS, riskRS, hhID, th, swaprate, carryRS, seed);
     
     WriteOutputTRS(outFileName, separator, numVar, numberOfLines, inputdata);
 }
