@@ -32,28 +32,32 @@
 void Numerical::DoTargetedRecordSwap(/*[in]*/ std::string inFileName, /*[in]*/ std::string outFileName, 
                           /*[in]*/ std::string separator, /*[in]*/ int numVar, /*[in]*/ double swaprate,
                           /*[in]*/ int* similar, /*[in]*/ int nSim, /*[in]*/ int* hierarchy, /*[in]*/ int nHier, 
-                          /*[in]*/ int* risk, /*[in]*/ int nRisk, /*[in]*/ int* carry, /*[in]*/ int nCarry,
-                          /*[in]*/ int hhID, /*[in]*/ int th, /*[in]*/ int seed, /*[in,out]*/ long* errorCode){
+                          /*[in]*/ int* riskVars, /*[in]*/ int nRisk, /*[in]*/ int* carry, /*[in]*/ int nCarry,
+                          /*[in]*/ int hhID, /*[in]*/ int k_anonymity, /*[in]*/ int seed, /*[in,out]*/ long* errorCode){
     
     long numberOfLines;
     std::vector< std::vector<int> > inputdata = ReadFromFileForTRS(inFileName, separator, numVar, &numberOfLines, errorCode);
     if (errorCode[0] != 0)
         return;
+    
+    //std::vector<int> similarRS(nSim);
+    std::vector< std::vector<int> > similarRS(1); // Only one similarity profile for now
+    similarRS[0].resize(nSim);                    // Only one similarity profile for now
 
-    //std::vector< std::vector<int> > data;
-    //std::vector< std::vector<int> > newdata;
-    std::vector<int> similarRS(nSim);
+    std::vector< std::vector<double> > risk;      // not yet implemented => risk.size() = 0
+    double risk_threshold = 0;                    // not yet implemented => risk_threshold = 0
+    
     std::vector<int> hierarchyRS(nHier);
     std::vector<int> riskRS(nRisk);
     std::vector<int> carryRS(nCarry);
     
-    for (int i=0; i<nSim; i++) similarRS[i] = similar[i];
+    for (int i=0; i<nSim; i++) similarRS[0][i] = similar[i]; // Only one similarity profile for now
 
-    for (int i=0; i<nHier; i++) hierarchyRS[i] = hierarchy[i];
+    for (int i=0; i<nHier; i++) hierarchyRS[i] = hierarchy[i]; // Hierarchy variables (regions for swapping)
 
-    for (int i=0; i<nRisk; i++) riskRS[i] = risk[i];
+    for (int i=0; i<nRisk; i++) riskRS[i] = riskVars[i];  // Risk variables for k-anonymity
     
-    for (int i=0; i<nCarry; i++) carryRS[i] = carry[i];
+    for (int i=0; i<nCarry; i++) carryRS[i] = carry[i];   // Variables to be "carried along" while swapping
 
 /*    data.resize(numVar);
     for (int i=0; i<numVar; i++)
@@ -64,7 +68,20 @@ void Numerical::DoTargetedRecordSwap(/*[in]*/ std::string inFileName, /*[in]*/ s
         }
     }
 */  
-    inputdata = recordSwap(inputdata, similarRS, hierarchyRS, riskRS, hhID, th, swaprate, carryRS, seed);
+    //inputdata = recordSwap(inputdata, similarRS, hierarchyRS, riskRS, hhID, th, swaprate, carryRS, seed);
+//    recordSwap(std::vector< std::vector<int> > data, 
+//                                           int hid,
+//                              std::vector<int> hierarchy, 
+//               std::vector< std::vector<int> > similar,
+//                                        double swaprate,
+//            std::vector< std::vector<double> > risk,                 
+//                                        double risk_threshold,      
+//                                           int k_anonymity, 
+//                               std::vector<int> risk_variables,  
+//                               std::vector<int> carry_along,
+//                                           int seed = 123456)
+    
+    inputdata = recordSwap(inputdata, hhID, hierarchyRS, similarRS, swaprate, risk, risk_threshold, k_anonymity, riskRS, carryRS, seed);
     
     WriteOutputTRS(outFileName, separator, numVar, numberOfLines, inputdata);
 }
@@ -293,10 +310,10 @@ std::vector< std::vector<int> > Numerical::ReadFromFileForTRS(std::string inFile
         
         // For time being:
         // inputdata is transposed datafile !!!!
-        inputdata.resize(nVar);
+        inputdata.resize(*numberOfLines);
 
-	for (long i=0; i<nVar; i++)  {
-            inputdata[i].resize(*numberOfLines);
+	for (long i=0; i<*numberOfLines; i++)  {
+            inputdata[i].resize(nVar);
         }
     
 	rewind(fdin);
@@ -311,8 +328,8 @@ std::vector< std::vector<int> > Numerical::ReadFromFileForTRS(std::string inFile
 		while (iseppos != -1)  {
 			stemp=stempstr.substr(pos,iseppos);
 
-			//inputdata[recnr][icount] = atoi(stemp.c_str();
-                        inputdata[icount][recnr] = atoi(stemp.c_str());    // Transpose matrix for time being, see line 327 as well
+			inputdata[recnr][icount] = atoi(stemp.c_str());
+                        //inputdata[icount][recnr] = atoi(stemp.c_str());    // Transpose matrix for time being, see line 327 as well
 
 			icount ++;
                         pos = iseppos+1;
@@ -326,8 +343,8 @@ std::vector< std::vector<int> > Numerical::ReadFromFileForTRS(std::string inFile
 		}
 		else
 		{
-    		    //inputdata[recnr][icount] = atoi(stemp.c_str();
-                    inputdata[icount][recnr] = atoi(stemp.c_str());   // Transpose matrix for time being
+    		    inputdata[recnr][icount] = atoi(stemp.c_str());
+                    //inputdata[icount][recnr] = atoi(stemp.c_str());   // Transpose matrix for time being
 		}
 		recnr++;
 	}
@@ -389,7 +406,8 @@ void Numerical::WriteOutputTRS(std::string outFileName, std::string seperator,
 	
 	for (i=0; i<nRec; i++) {
 		for (j=0; j <nVar; j++) {
-			fprintf(fdout,"%d", out_Data[j][i]);    // Transpose back
+                        fprintf(fdout,"%d", out_Data[i][j]);
+			//fprintf(fdout,"%d", out_Data[j][i]);    // Transpose back
 			if (j <nVar-1) {
 				fprintf(fdout,"%s",seperator.c_str());
 			}
