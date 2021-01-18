@@ -12,6 +12,10 @@
  * warranties or conditions of any kind, either express or implied.
  */
 
+/*
+ * Version: 0.3.1
+ */
+
 /* 
 * Header file for shared library recordSwap.dll
 * with source code recordSwap.cpp
@@ -36,9 +40,6 @@
 /*
 * Function to perform record swapping
 */
-//std::vector<std::vector<int> > recordSwap(std::vector< std::vector<int> > data, std::vector<std::vector<int>> similar,
-//                                          std::vector<int> hierarchy, std::vector<int> risk_variables, int hid, int k_anonymity, double swaprate,
-//                                          double risk_threshold, std::vector<std::vector<double>> risk, int seed);
 std::vector< std::vector<int> > recordSwap(std::vector< std::vector<int> > data, int hid,
                                            std::vector<int> hierarchy, 
                                            std::vector< std::vector<int> > similar,
@@ -79,6 +80,12 @@ std::vector<int> randSample(std::unordered_set<int> &ID, int N, std::vector<doub
 std::vector<int> sampleDonor(std::vector< std::vector<int> > &data, std::vector<std::vector<int>> &similar,
                              std::vector<int> &IDswap, std::unordered_set<int> &IDswap_pool,
                              std::map<double,int> &IDdonor_pool, std::vector<int> &IDused, int &hid);
+  
+/* 
+ * help function to randomly distribute number of units to draw from
+ */
+std::map<std::vector<int>,int> distributeRandom(std::map<std::vector<int>,double> &ratioDraws, int &totalDraws,
+                                                std::mt19937 &mersenne_engine);
   
 /*
  * Function to distribute n draws over a given number of groups
