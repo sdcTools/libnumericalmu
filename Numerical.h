@@ -53,7 +53,8 @@ public:
                                   /*[in]*/ std::string separator, /*[in]*/ int numVar, /*[in]*/ double swaprate,
                                   /*[in]*/ int* similar, /*[in]*/ int nSim, /*[in]*/ int* hierarchy, /*[in]*/ int nHier, 
                                   /*[in]*/ int* risk, /*[in]*/ int nRisk, /*[in]*/ int* carry, /*[in]*/ int nCarry, 
-                                  /*[in]*/ int hhID, /*[in]*/ int th, /*[in]*/ int seed, /*[in,out]*/ long* errorCode);
+                                  /*[in]*/ int hhID, /*[in]*/ int th, /*[out]*/ int* count_swapped_records, 
+                                  /*[out]*/ int* count_swapped_hid, /*[in]*/ int seed, /*[in,out]*/ long* errorCode, /*[in]*/ std::string logFileName);
 	void DoRankSwap(/*[in]*/ std::string inFileName, /*[in]*/ std::string outFileName, /*[in]*/  std::string separator, /*[in]*/ long numVar, /*[in]*/ long perc, /*[in,out]*/ long *errorCode);
 	void DoMicroAggregation(/*[in]*/ std::string inFileName, /*[in]*/ std::string outFileName,  /*[in]*/ std::string separator, /*[in]*/ long nVar, /*[in]*/ long nMinRecPerGr, /*[in]*/ long nGroupsPerVar, /*[in]*/ long typeSolution, /*[in,out]*/  long  *nColumnsPerGr, /*[in,out]*/  long  *errorCode);
         void SetProgressListener(IProgressListener2* progressListener);

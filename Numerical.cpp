@@ -30,7 +30,9 @@ void Numerical::DoTargetedRecordSwap(/*[in]*/ std::string inFileName, /*[in]*/ s
                           /*[in]*/ std::string separator, /*[in]*/ int numVar, /*[in]*/ double swaprate,
                           /*[in]*/ int* similar, /*[in]*/ int nSim, /*[in]*/ int* hierarchy, /*[in]*/ int nHier, 
                           /*[in]*/ int* riskVars, /*[in]*/ int nRisk, /*[in]*/ int* carry, /*[in]*/ int nCarry,
-                          /*[in]*/ int hhID, /*[in]*/ int k_anonymity, /*[in]*/ int seed, /*[in,out]*/ long* errorCode){
+                          /*[in]*/ int hhID, /*[in]*/ int k_anonymity, /*[out]*/ int* count_swapped_records, 
+                          /*[out]*/ int* count_swapped_hid, /*[in]*/ int seed, /*[in,out]*/ long* errorCode,
+                          /*[in]*/ std::string logFileName){
     
     long numberOfLines;
     std::vector< std::vector<int> > inputdata = ReadFromFileForTRS(inFileName, separator, numVar, &numberOfLines, errorCode);
@@ -56,16 +58,7 @@ void Numerical::DoTargetedRecordSwap(/*[in]*/ std::string inFileName, /*[in]*/ s
     
     for (int i=0; i<nCarry; i++) carryRS[i] = carry[i];   // Variables to be "carried along" while swapping
 
-/*    data.resize(numVar);
-    for (int i=0; i<numVar; i++)
-    {
-        data[i].resize(numberOfLines);
-        for (int j=0; j<numberOfLines; j++){
-            data[i][j] = (int) inputdata[j][i];   // Need to transpose the data for the time being
-        }
-    }
-*/  
-    //inputdata = recordSwap(inputdata, similarRS, hierarchyRS, riskRS, hhID, th, swaprate, carryRS, seed);
+//inputdata = recordSwap(inputdata, similarRS, hierarchyRS, riskRS, hhID, th, swaprate, carryRS, seed);
 //    recordSwap(std::vector< std::vector<int> > data, 
 //                                           int hid,
 //                              std::vector<int> hierarchy, 
@@ -76,9 +69,13 @@ void Numerical::DoTargetedRecordSwap(/*[in]*/ std::string inFileName, /*[in]*/ s
 //                                           int k_anonymity, 
 //                               std::vector<int> risk_variables,  
 //                               std::vector<int> carry_along,
+//                                           int &count_swapped_records,
+//                                           int &count_swapped_hid, 
+//                                   std::string logFileName,
 //                                           int seed = 123456)
     
-    inputdata = recordSwap(inputdata, hhID, hierarchyRS, similarRS, swaprate, risk, risk_threshold, k_anonymity, riskRS, carryRS, seed);
+    inputdata = recordSwap(inputdata, hhID, hierarchyRS, similarRS, swaprate, risk, risk_threshold, k_anonymity, riskRS, carryRS, 
+                            *count_swapped_records, *count_swapped_hid, logFileName, seed);
     
     WriteOutputTRS(outFileName, separator, numVar, numberOfLines, inputdata);
 }
