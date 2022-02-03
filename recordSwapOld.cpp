@@ -1,6 +1,6 @@
 /*
  * Algorithm for targeted record swapping
- * Version: 0.3.1
+ * Version: 0.4.0
  */
 
 #include <iostream>     
@@ -12,6 +12,7 @@
 #include <map>
 #include <unordered_set>
 #include <unordered_map>
+#include <fstream>
 #include "recordSwap.h"
 using namespace std;
 
@@ -23,19 +24,19 @@ std::vector< std::vector<int> > orderData(std::vector< std::vector<int> > &data,
   // initialise ordering vector
   std::vector<int> orderVec(data.size());
   std::iota(orderVec.begin(),orderVec.end(),0);
-  
+
   // order this vector by order of data[orderIndex]
   std::sort(orderVec.begin(),orderVec.end(),
             [&](int a, int b) { return data[a][orderIndex] < data[b][orderIndex]; }
   );
-  
+
   // reorder data without copying it
-  for(int i=0;i<orderVec.size();i++){
+  for(std::size_t i = 0;i<orderVec.size();i++){
     // while orderVec[i] is not yet in place 
     // every swap places at least one element in it's proper place
     while(orderVec[i] !=   orderVec[orderVec[i]] ){
-      // swap every "column" of data
-      for(int j=0;j<data[0].size();j++){
+      // swap every "row" of data
+      for(std::size_t j=0;j<data[0].size();j++){
         swap( data[orderVec[i]][j], data[orderVec[orderVec[i]]][j] );
       }
       // then adjust orderVec[i]
@@ -55,7 +56,7 @@ std::vector< std::vector<int> > orderData(std::vector< std::vector<int> > &data,
 std::vector<int> setLevels(std::vector< std::vector<double> > &risk, double risk_threshold) {
   
   // risk: data containing the risk for each hierarchy level and each unit. risk[0] returns the vector of risks for the first unit over all hierarchy levels
-  // risk_threshold: double defining the risk threshold beyond which a record/household needs to be swapped. This is understood as risk>=risk_threshhold.
+  // risk_threshold: double defining the risk threshold beyond which a record/household needs to be swapped. This is understood as risk>risk_threshhold.
   
   // initialise parameters
   int n=risk.size();
@@ -65,7 +66,7 @@ std::vector<int> setLevels(std::vector< std::vector<double> > &risk, double risk
   
   for(int i=0;i<n;i++){
     for(int j=0; j<p; j++){
-      if(risk[i][j]>=risk_threshold){
+      if(risk[i][j]>risk_threshold){ // risk[i][j]>risk_threshold
         data_level[i] = j;
         break;
       }
@@ -346,7 +347,6 @@ std::map<std::vector<int>,int> distributeDraws2(std::map<std::vector<int>,std::u
   // loop over hierarchy and distribute each entry in numberDraws
   // over the hierarchies vertically
   double helpSum = 0.0;
-  double ratioHelp = 0.0;
   std::vector<int> hl;
 
   for(auto const&x : group_hier){
@@ -482,10 +482,10 @@ std::vector<int> sampleDonor(std::vector< std::vector<int> > &data, std::vector<
   // select donor based on similarity constrains
   // iterate over both unordered sets
   // iterate over IDdonor_pool in reverse order since it is sorted in ascending order by risk
-  for(int i=0; i<IDswap.size();i++){
+  for(std::size_t i=0; i<IDswap.size();i++){
     // find donor for index_samp
     // iterate over similarity profiles
-    for(int profile=0;profile<similar.size();profile++){
+    for(std::size_t profile=0;profile<similar.size();profile++){
       
       // iterate over complete donor set in reverse order
       for( auto it = IDdonor_pool.end();it!=IDdonor_pool.begin(); ){
@@ -499,7 +499,7 @@ std::vector<int> sampleDonor(std::vector< std::vector<int> > &data, std::vector<
           // IDswap[i] is similar to index_donor
           // by using similarity indices of the profile
           similar_true=true;
-          for(int sim=0;sim<similar[profile].size();sim++){
+          for(std::size_t sim=0;sim<similar[profile].size();sim++){
             if(data[IDswap[i]][similar[profile][sim]]!=data[index_donor][similar[profile][sim]]){
               // similarity variables do not match
               // set similar_true=false and break loop
@@ -538,6 +538,9 @@ std::vector< std::vector<int> > recordSwap(std::vector< std::vector<int> > data,
                                            std::vector< std::vector<double> > risk, double risk_threshold,
                                            int k_anonymity, std::vector<int> risk_variables,  
                                            std::vector<int> carry_along,
+                                           int &count_swapped_records,
+                                           int &count_swapped_hid,
+                                           std::string logFileName,
                                            int seed = 123456){
   
   // data: data input data.size() ~ number of records - data.[0].size ~ number of varaibles per record
@@ -552,7 +555,9 @@ std::vector< std::vector<int> > recordSwap(std::vector< std::vector<int> > data,
   // risk_variables: column indices in data corresponding to risk variables which will be considered for estimating counts in the population
   // carry_along: swap additional variables in addition to hierarchy variable. These variables do not interfere with the procedure of 
   // finding a record to swap with. This parameter is only used at the end of the procedure when swapping the hierarchies.
-  // seed: integer seed for random number generator
+  // count_swapped_records, count_swapped_hid: count number of households and records swapped.
+  // seed: integer seed for random number generator.
+  // logFileName: name of file to save HIDs of non-swapped households.
 
   // initialise parameters
   int n = data.size(); // number of obesrvations
@@ -727,8 +732,8 @@ std::vector< std::vector<int> > recordSwap(std::vector< std::vector<int> > data,
 
     
     /////////////////
-    int sampSize=0;
-    int countUsed=0;
+    // int sampSize=0;
+    // int countUsed=0;
     int countRest=0;
     /////////////////
     // loop over levels of hierarchy
@@ -787,7 +792,7 @@ std::vector< std::vector<int> > recordSwap(std::vector< std::vector<int> > data,
                                             samp_order_donor[h], IDused, hid);
 
         // set Index to used
-        for(int i=0;i<IDdonor.size();i++){
+        for(std::size_t i=0;i<IDdonor.size();i++){
           if(IDdonor[i]>-1){
             IDused[IDdonor[i]]=1;
             IDused[IDswap[i]]=1;
@@ -814,6 +819,8 @@ std::vector< std::vector<int> > recordSwap(std::vector< std::vector<int> > data,
     hsize = map_hsize[data[x.first][hid]];
     hsizewith = map_hsize[data[x.second][hid]];
     
+    count_swapped_records = count_swapped_records + hsize + hsizewith; // count how many records are swapped
+    
     // erase elements if they have been used during the procedure
     // donor was not found on highest hierarchy
     // but donor was found on lowest...
@@ -837,14 +844,22 @@ std::vector< std::vector<int> > recordSwap(std::vector< std::vector<int> > data,
     }
   }
   
-  // if(IDnotUsed.size()==0){
-  //    cout<<"Recordswapping was successful!"<<endl;
-  // }else{
-  //    cout<<"Donor household was not found in "<<IDnotUsed.size()<<" cases."<<endl;
-  // }
+  // save number of swaped hids 
+  count_swapped_hid = swappedIndex.size()*2;
+  
+  if(IDnotUsed.size()==0){
+    cout<<"Recordswapping was successful!"<<endl;
+  }else{
+    cout<<"Donor household was not found in "<<IDnotUsed.size()<<" cases.\nSee log.txt for a detailed list"<<endl;
+    
+    FILE* pFile = fopen(logFileName.c_str(), "w");
+    fprintf(pFile, "%d household IDs for which a suitable donor for swapping was not found\n -------------------------------------------\n",IDnotUsed.size());
+    for(auto const&x : IDnotUsed){
+      fprintf(pFile, " %u\n",x);
+    }
+    fclose(pFile);
+  }
   
   return data;
   
 }
-
-

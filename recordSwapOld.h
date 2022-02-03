@@ -13,7 +13,7 @@
  */
 
 /*
- * Version: 0.3.1
+ * Version: 0.4.0
  */
 
 /* 
@@ -47,7 +47,11 @@ std::vector< std::vector<int> > recordSwap(std::vector< std::vector<int> > data,
                                            std::vector< std::vector<double> > risk, double risk_threshold,
                                            int k_anonymity, std::vector<int> risk_variables,  
                                            std::vector<int> carry_along,
-                                           int seed);
+                                           int &count_swapped_records,
+                                           int &count_swapped_hid,
+                                           std::string logFileName,
+                                           int seed
+                                           );
 
 //private:
 /*
