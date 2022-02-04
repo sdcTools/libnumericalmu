@@ -25,24 +25,34 @@
 
 /////////////////////////////////////////////////////////////////////////////
 // Targeted record swapping
+// TODO: add multiple similarity profiles, how to link with Java still to be found
+
+// int* similar is pointer to _all_ profiles: similar[0]...similar[nSim[0]-1], similar[nSim[0]]...similar[nSim[0]+nSim[1]-1], etc.
 
 void Numerical::DoTargetedRecordSwap(/*[in]*/ std::string inFileName, /*[in]*/ std::string outFileName, 
                           /*[in]*/ std::string separator, /*[in]*/ int numVar, /*[in]*/ double swaprate,
-                          /*[in]*/ int* similar, /*[in]*/ int nSim, /*[in]*/ int* hierarchy, /*[in]*/ int nHier, 
+                          /*[in]*/ int nProfiles, /*[in]*/ int* similar, /*[in]*/ int* nSim,
+                          ///*[in]*/ int* similar, /*[in]*/ int nSim, 
+                          /*[in]*/ int* hierarchy, /*[in]*/ int nHier, 
                           /*[in]*/ int* riskVars, /*[in]*/ int nRisk, /*[in]*/ int* carry, /*[in]*/ int nCarry,
                           /*[in]*/ int hhID, /*[in]*/ int k_anonymity, /*[out]*/ int* count_swapped_records, 
                           /*[out]*/ int* count_swapped_hid, /*[in]*/ int seed, /*[in,out]*/ long* errorCode,
                           /*[in]*/ std::string logFileName){
-    
+
     long numberOfLines;
     std::vector< std::vector<int> > inputdata = ReadFromFileForTRS(inFileName, separator, numVar, &numberOfLines, errorCode);
     if (errorCode[0] != 0)
         return;
     
-    //std::vector<int> similarRS(nSim);
+/*    //std::vector<int> similarRS(nSim);
     std::vector< std::vector<int> > similarRS(1); // Only one similarity profile for now
     similarRS[0].resize(nSim);                    // Only one similarity profile for now
-
+*/
+    std::vector< std::vector<int> > similarRS(nProfiles);
+    for (int i=0; i<nProfiles; i++){
+        similarRS[i].resize(nSim[i]);
+    }
+    
     std::vector< std::vector<double> > risk;      // not yet implemented => risk.size() = 0
     double risk_threshold = 0;                    // not yet implemented => risk_threshold = 0
     
@@ -50,7 +60,14 @@ void Numerical::DoTargetedRecordSwap(/*[in]*/ std::string inFileName, /*[in]*/ s
     std::vector<int> riskRS(nRisk);
     std::vector<int> carryRS(nCarry);
     
-    for (int i=0; i<nSim; i++) similarRS[0][i] = similar[i]; // Only one similarity profile for now
+    //for (int i=0; i<nSim; i++) similarRS[0][i] = similar[i]; // Only one similarity profile for now
+    int k = 0;
+    for (int i=0; i<nProfiles; i++){
+        for (int j=0; j<nSim[i]; j++){
+            similarRS[i][j] = similar[k+j];
+        }
+        k += nSim[i];
+    }
 
     for (int i=0; i<nHier; i++) hierarchyRS[i] = hierarchy[i]; // Hierarchy variables (regions for swapping)
 

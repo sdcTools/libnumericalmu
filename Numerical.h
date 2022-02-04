@@ -51,7 +51,9 @@ public:
 public:
         void DoTargetedRecordSwap(/*[in]*/ std::string inFileName, /*[in]*/ std::string outFileName, 
                                   /*[in]*/ std::string separator, /*[in]*/ int numVar, /*[in]*/ double swaprate,
-                                  /*[in]*/ int* similar, /*[in]*/ int nSim, /*[in]*/ int* hierarchy, /*[in]*/ int nHier, 
+                                  /*[in]*/ int nProfiles, /*[in]*/ int* similar, /*[in]*/ int* nSim,
+                                  ///*[in]*/ int* similar, /*[in]*/ int nSim, 
+                                  /*[in]*/ int* hierarchy, /*[in]*/ int nHier, 
                                   /*[in]*/ int* risk, /*[in]*/ int nRisk, /*[in]*/ int* carry, /*[in]*/ int nCarry, 
                                   /*[in]*/ int hhID, /*[in]*/ int th, /*[out]*/ int* count_swapped_records, 
                                   /*[out]*/ int* count_swapped_hid, /*[in]*/ int seed, /*[in,out]*/ long* errorCode, /*[in]*/ std::string logFileName);

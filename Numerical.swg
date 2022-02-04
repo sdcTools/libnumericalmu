@@ -18,7 +18,8 @@
 
 // Arrays used as input
 %apply long[] { long *VarList, long *HHFrequency, long *RecFrequency, long *Frequency, long *VarIndex, long *VarIndexes, long *UCArray};
-%apply int[] {int *similar, int *hierarchy, int *risk, int *carry, int *count_swapped_records, int *count_swapped_hid};
+//%apply int[] {int *similar, int *hierarchy, int *risk, int *carry, int *count_swapped_records, int *count_swapped_hid};
+%apply int[] {int *similar, int *nSim, int *hierarchy, int *risk, int *carry, int *count_swapped_records, int *count_swapped_hid};
 %apply char **STRING_ARRAY { char* [] };
 %apply double[] { double *ClassLeftValue };
 
